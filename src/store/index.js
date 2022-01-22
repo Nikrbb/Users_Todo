@@ -1,28 +1,40 @@
 import axios from 'axios'
 import { createStore } from 'vuex'
+import ApiClient from '../apiClient';
 
 export default createStore({
+
   state: {
-    users: null,
+    users: [],
   },
   mutations: {
     SET_DATA(state, payload) {
       state.users = payload;
-      console.log(state.users);
     }
   },
   actions: {
-    async loadUsers() {
-      await axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then(responce  => this.commit('SET_DATA', responce.data))
-      .catch(error => console.log(error))
-    }
+
+    // async GET_USERS_FROM_API() {
+    //   return await ApiClient.get()
+    // },
+    async GET_USERS_FROM_API({commit}) {
+      return await axios('https://jsonplaceholder.typicode.com/users',{
+        method: "GET"
+      })
+      .then(response => {
+        commit('SET_DATA', response.data)
+        return response
+      })
+      .catch(error => {
+        console.log(error)
+        return error
+      })
+    },
   },
   modules: {
   }, 
   getters: {
-    getData(state) {
+    USERS(state) {
       return state.users
     }
   }

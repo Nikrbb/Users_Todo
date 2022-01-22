@@ -18,7 +18,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch(`loadUsers`)
+    this.$store.dispatch(`GET_USERS_FROM_API`)
   },
   
   computed: {

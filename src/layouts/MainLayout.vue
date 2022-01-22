@@ -1,7 +1,7 @@
 <template>
 <div class="layout">
     <Sidebar class="sidebar" />
-    <router-view class="router-view"></router-view>
+    <router-view ></router-view>
 </div>
 </template>
 
@@ -29,8 +29,6 @@ export default {
         margin-top: 200px;
        
     }
-    .router-view {
-       
-    }
+ 
 
 </style>
