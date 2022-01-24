@@ -8,37 +8,49 @@
     <el-table-column prop="email" label="Email" width="230" />
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default>
-        <el-button type="text" size="small" @click="handleClick"
+        <el-button type="text" size="small" @click="showDetails"
           >Detail</el-button
         >
-        <el-button class="button_remove" type="text" size="small">Remove</el-button>
+        <el-button class="button_remove" @click="removeItem" type="text" size="small">Remove</el-button>
       </template>
     </el-table-column>
   </el-table>
-  <user-info  v-if="usersDetails"></user-info>
+  <user-info :usersDetails="usersDetails"  v-if="usersNode">
+   <el-button class="button_close" @click="usersNode = false" type="text">Close</el-button>
+   <el-button class="button_remove" @click="removeItem" type="text">Remove</el-button>
+  </user-info>
 </div>
 </template>
 
 <script>
 import { ref } from 'vue'
 import UserInfo from './UserInfo.vue'
-// import {mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
+import mixins from '../mixins/mixins'
+
 export default {
     name: 'TableList',
     components: {
       UserInfo,
+      mixins,
     },
+
     data() {
       return {
         input: ref(''),
         debouncedInput: '',
-        usersDetails: false,
+        usersDetails: null,
+        usersNode: false,
       }
     }, 
     computed: {
-      // ...mapGetters([
-      //   'USERS'
-      // ]),
+      ...mapGetters([
+        'USERS'
+      ]),
+
+      debounced() {
+        return this.debounce(() => this.debouncedInput = this.input)
+      },
 
       tableData() {
         if (!this.debouncedInput) {
@@ -57,11 +69,6 @@ export default {
         }) 
         return newArr;
       },
-
-      debounced() {
-        return this.debounce(() => this.debouncedInput = this.input)
-      },
-
     },
 
     methods: {
@@ -73,11 +80,16 @@ export default {
         };
       },
 
-      handleClick({target}) {
-        let parent = target.closest('.el-table__row');
-        let id = parent.querySelector('.cell').innerText;
-        
-        this.usersDetails = !this.usersDetails;
+      showDetails({target}) {
+        const id = mixins.findElemId(target);
+        this.usersDetails = this.USERS.find(elem => elem.id === id);
+        if (this.usersNode !== true) this.usersNode = true;
+      },
+
+      removeItem({target}) {
+       const id = mixins.findElemId(target, this.usersDetails.id);
+       this.$store.dispatch(`INIT_REMOVE_ITEM`, id);
+       if (this.usersDetails.id === id) this.usersNode = false;
       },
     }
 }
@@ -86,6 +98,9 @@ export default {
 <style scoped>
   .table-wrapper {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
   }
   .filter {
     margin-top: 50px;
@@ -96,6 +111,9 @@ export default {
   .table {
     margin-left: 20px;
     max-width: 740px;
+  }
+  .button_close:hover {
+    color: darkgoldenrod;
   }
   .button_remove:hover {
     color: crimson;

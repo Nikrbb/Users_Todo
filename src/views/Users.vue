@@ -1,6 +1,6 @@
 <template>
   <div class="users">
-    <h1 class="users__title">This is an about page</h1>
+    <h1 class="users__title">Users page</h1>
     <table-list ></table-list>
   </div>
 </template>

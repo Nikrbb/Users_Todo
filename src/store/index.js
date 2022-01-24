@@ -10,6 +10,10 @@ export default createStore({
   mutations: {
     SET_DATA(state, payload) {
       state.users = payload;
+    },
+
+    REMOVE_DATA (state, id) {
+      state.users = state.users.filter(elem => elem.id !== id);
     }
   },
   actions: {
@@ -18,6 +22,9 @@ export default createStore({
     //   return await ApiClient.get()
     // },
     async GET_USERS_FROM_API({commit}) {
+      // const req = await axios('https://jsonplaceholder.typicode.com/users',{
+      //   method: "GET"
+      // });
       return await axios('https://jsonplaceholder.typicode.com/users',{
         method: "GET"
       })
@@ -30,6 +37,10 @@ export default createStore({
         return error
       })
     },
+
+    INIT_REMOVE_ITEM({commit}, id) {
+      commit('REMOVE_DATA', id)
+    }
   },
   modules: {
   }, 
