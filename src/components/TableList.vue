@@ -15,6 +15,7 @@
       </template>
     </el-table-column>
   </el-table>
+
   <user-info :usersDetails="usersDetails"  v-if="usersNode">
    <el-button class="button_close" @click="usersNode = false" type="text">Close</el-button>
    <el-button class="button_remove" @click="removeItem" type="text">Remove</el-button>
@@ -86,12 +87,12 @@ export default {
         if (this.usersNode !== true) this.usersNode = true;
       },
 
-      removeItem({target}) {
-       const id = mixins.findElemId(target, this.usersDetails.id);
-       this.$store.dispatch(`INIT_REMOVE_ITEM`, id);
-       if (this.usersDetails.id === id) this.usersNode = false;
-      },
-    }
+      removeItem({ target }) {
+        const id =  this.usersDetails ? mixins.findElemId( target, this.usersDetails.id ) : mixins.findElemId( target );
+        if ( this.usersDetails && this.usersDetails.id === id ) this.usersNode = false;
+        this.$store.commit( `REMOVE_DATA`, id );
+        },
+      }
 }
 </script>
 

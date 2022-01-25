@@ -1,6 +1,5 @@
-import axios from 'axios'
 import { createStore } from 'vuex'
-import ApiClient from '../apiClient';
+import UsersService from '../services/users.service';
 
 export default createStore({
 
@@ -18,35 +17,23 @@ export default createStore({
   },
   actions: {
 
-    // async GET_USERS_FROM_API() {
-    //   return await ApiClient.get()
-    // },
-    async GET_USERS_FROM_API({commit}) {
-      // const req = await axios('https://jsonplaceholder.typicode.com/users',{
-      //   method: "GET"
-      // });
-      return await axios('https://jsonplaceholder.typicode.com/users',{
-        method: "GET"
-      })
-      .then(response => {
-        commit('SET_DATA', response.data)
-        return response
-      })
-      .catch(error => {
-        console.log(error)
-        return error
+    getUsersFromApi() {
+      return new Promise((resolve, reject) => {
+        UsersService
+          .usersList()
+          .then(responce => {
+            this.commit('SET_DATA', responce.data)
+            return resolve(responce.data)
+          })
+          .catch(error => reject(error))
       })
     },
-
-    INIT_REMOVE_ITEM({commit}, id) {
-      commit('REMOVE_DATA', id)
-    }
   },
   modules: {
   }, 
   getters: {
     USERS(state) {
-      return state.users
+      return state.users;
     }
   }
 })

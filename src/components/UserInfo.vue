@@ -4,8 +4,7 @@
     class="margin-top"
     :title="usersDetails.name"
     :column="1"
-    
-    without border
+    border
   >
     <template #extra>
       <slot></slot>

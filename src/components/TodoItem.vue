@@ -4,15 +4,17 @@
             <h3 class="task__title">{{ item.title }}</h3>
             <p class="task__text">{{ item.description }}</p>
             <button class="task__button" @click="deleteItem(item)">delete</button>
+            <!-- <el-button type="primary" :icon="User"></el-button> -->
         </div>
     </div>
 </template>
 
 <script>
-
+// import { Delete, User } from '@element-plus/icons-vue'
 export default {
     name: 'TodoItem',
     props:['item', 'workTasks', 'homeTasks', 'currentTab'],
+    // components: {Delete, User},
 
     methods: {
         deleteItem(item) {
@@ -38,8 +40,8 @@ export default {
 
     .task {
         display: inline-block;
-        width: 200px;
-        height: 150px;
+        width: 300px;
+        height: 170px;
         padding: 10px;
         border: 1px solid grey;
         border-radius: 10px;

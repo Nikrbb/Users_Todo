@@ -1,7 +1,6 @@
 <template>
   <div id="nav">
     <component :is="currentLayout">
-      <!-- <router-view></router-view> -->
     </component>
   </div>
 </template>
@@ -18,12 +17,12 @@ export default {
   },
 
   created() {
-    this.$store.dispatch(`GET_USERS_FROM_API`)
+    this.$store.dispatch(`getUsersFromApi`)
   },
   
   computed: {
     currentLayout() {
-      return 'main-layout'
+      return `${this.$route.meta.layout}-layout`
     }
   }
 }
