@@ -16,10 +16,6 @@ export default {
     Sidebar
   },
 
-  created() {
-    this.$store.dispatch(`getUsersFromApi`)
-  },
-  
   computed: {
     currentLayout() {
       return `${this.$route.meta.layout}-layout`

@@ -11,8 +11,8 @@ export default createStore({
       state.users = payload;
     },
 
-    REMOVE_DATA (state, id) {
-      state.users = state.users.filter(elem => elem.id !== id);
+    REMOVE_DATA (state, index) {
+      state.users.splice(index, 1);
     }
   },
   actions: {
@@ -32,8 +32,6 @@ export default createStore({
   modules: {
   }, 
   getters: {
-    USERS(state) {
-      return state.users;
-    }
+    USERS: state => state.users,
   }
 })
