@@ -5,17 +5,28 @@ const routes = [
   {
     path: '/',
     name: 'TodoList',
-    component: TodoList
+    component: TodoList,
+    meta: { layout: 'main' },
   },
   {
     path: '/users',
     name: 'Users',
     meta: { layout: 'main' },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/Users.vue')
-  }
+  },
+  {
+    path: '/users/:id',
+    name: 'User',
+    meta: { layout: 'main' },
+    component: () => import('../views/User.vue'),
+  },
+  {
+    path: '/404',
+    name: '404',
+    meta: { layout: 'main' },
+    component: () => import('../views/404.vue'),
+  },
+
 ]
 
 const router = createRouter({

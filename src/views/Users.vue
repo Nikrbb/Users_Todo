@@ -1,7 +1,7 @@
 <template>
   <div class="users">
-    <h1 class="users__title">This is an about page</h1>
-    <table-list class="table-list"></table-list>
+    <h1 class="users__title">Users page</h1>
+    <table-list ></table-list>
   </div>
 </template>
 <script>
@@ -23,9 +23,4 @@ export default {
     flex-direction: column;
   }
 
-
-
-  .table-list {
-    margin-top: 100px;
-  }
 </style>

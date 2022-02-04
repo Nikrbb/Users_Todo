@@ -5,10 +5,7 @@
        <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
       >
-       
         <el-menu-item index="1">
           <el-icon><icon-menu /></el-icon>
           <router-link class="router-link" to="/">Todo List</router-link>
@@ -17,9 +14,13 @@
           <el-icon><document /></el-icon>
           <router-link class="router-link" to="/users">Users</router-link>
         </el-menu-item>
-        <el-menu-item index="3" disabled>
+        <el-menu-item index="3" v-if="userById">
           <el-icon><setting /></el-icon>
-          <span>Navigator Three</span>
+          <router-link  class="router-link" :to="`/users/${this.userById.id}`">id: {{userById.id}}</router-link>
+        </el-menu-item>
+        <el-menu-item index="3" v-else disabled>
+          <el-icon><setting /></el-icon>
+          <router-link  to="/users" class="router-link">ID</router-link>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -28,24 +29,21 @@
 
 <script>
 import {Location, Document, Menu as IconMenu, Setting,} from '@element-plus/icons-vue'
+import {mapGetters} from 'vuex'
 
 export default {
-    name: 'MainLayout',
-    components: {
-        Location,
-        Document,
-        IconMenu,
-        Setting
-    },
-
-    methods: {
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath)
-        }, 
-        handleClose(key, keyPath) {
-            console.log(key, keyPath)
-        }
-    }
+  name: 'MainLayout',
+  components: {
+      Location,
+      Document,
+      IconMenu,
+      Setting
+  },
+  computed: {
+    ...mapGetters([
+      'userById',
+    ]),
+  },
 
 }
 

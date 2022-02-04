@@ -12,23 +12,63 @@
 
 export default {
     name: 'TodoItem',
-    props:['item', 'workTasks', 'homeTasks', 'currentTab'],
+    props: {
+        item: {
+            type: Object,
+            required: true,
+            validator: function(value) {
+                return value.id && value.description && value.title;
+            }
+        },
+        workTasks: {
+            type: Array,
+            default: [],
+            required: false,
+            validator: function(value) {
+                for (const i of value) {
+                    console.log(i);
+                    if (typeof(i) !== 'object') return false
+                }
+                return true
+            }
+        },
+        homeTasks: {
+            type: Array,
+            default: [],
+            required: false,
+            validator: function(value) {
+                for (const i of value) {
+                    console.log(i);
+                    if (typeof(i) !== 'object') return false
+                }
+                return true
+            }
+        },
+        currentTab: {
+            type: String,
+            required: true,
+            validator: function(value) {
+                return value === "Work" || value === "Home"
+            },
+        },
+    },
+
 
     methods: {
         deleteItem(item) {
             let newArr = [];
             if (this.currentTab === `Work`) {
                 for (let i of this.workTasks) {
-                    if(i.id !== item.id) newArr.push(i)
+                    if(i.id !== item.id) newArr.push(i);
                 }
             } else {
                 for (let i of this.homeTasks) {
-                    if(i.id !== item.id) newArr.push(i)
+                    if(i.id !== item.id) newArr.push(i);
                 }
             }
             
             this.$emit('deleteTodo', newArr)
-        }
+        },
     }
     
 }
@@ -38,8 +78,8 @@ export default {
 
     .task {
         display: inline-block;
-        width: 200px;
-        height: 150px;
+        width: 300px;
+        height: 170px;
         padding: 10px;
         border: 1px solid grey;
         border-radius: 10px;

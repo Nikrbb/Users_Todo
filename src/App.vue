@@ -1,7 +1,6 @@
 <template>
   <div id="nav">
     <component :is="currentLayout">
-      <!-- <router-view></router-view> -->
     </component>
   </div>
 </template>
@@ -17,13 +16,9 @@ export default {
     Sidebar
   },
 
-  created() {
-    this.$store.dispatch(`loadUsers`)
-  },
-  
   computed: {
     currentLayout() {
-      return 'main-layout'
+      return `${this.$route.meta.layout}-layout`
     }
   }
 }
