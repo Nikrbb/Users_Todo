@@ -4,6 +4,7 @@ const options = {
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json; charset=utf-8',
+    // 'Access-Control-Allow-Origin': 'http://localhost:8080', // fix it
   }
 };
 
@@ -12,6 +13,7 @@ const httpClient = Axios.create(options);
 httpClient.interceptors.request.use(config => config);
 
 httpClient.interceptors.response.use(response => response, error => Promise.reject(error.response.data))
+
 
 const ApiClient = {
   get(url, conf = {}) {

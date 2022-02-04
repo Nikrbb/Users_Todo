@@ -4,33 +4,71 @@
             <h3 class="task__title">{{ item.title }}</h3>
             <p class="task__text">{{ item.description }}</p>
             <button class="task__button" @click="deleteItem(item)">delete</button>
-            <!-- <el-button type="primary" :icon="User"></el-button> -->
         </div>
     </div>
 </template>
 
 <script>
-// import { Delete, User } from '@element-plus/icons-vue'
+
 export default {
     name: 'TodoItem',
-    props:['item', 'workTasks', 'homeTasks', 'currentTab'],
-    // components: {Delete, User},
+    props: {
+        item: {
+            type: Object,
+            required: true,
+            validator: function(value) {
+                return value.id && value.description && value.title;
+            }
+        },
+        workTasks: {
+            type: Array,
+            default: [],
+            required: false,
+            validator: function(value) {
+                for (const i of value) {
+                    console.log(i);
+                    if (typeof(i) !== 'object') return false
+                }
+                return true
+            }
+        },
+        homeTasks: {
+            type: Array,
+            default: [],
+            required: false,
+            validator: function(value) {
+                for (const i of value) {
+                    console.log(i);
+                    if (typeof(i) !== 'object') return false
+                }
+                return true
+            }
+        },
+        currentTab: {
+            type: String,
+            required: true,
+            validator: function(value) {
+                return value === "Work" || value === "Home"
+            },
+        },
+    },
+
 
     methods: {
         deleteItem(item) {
             let newArr = [];
             if (this.currentTab === `Work`) {
                 for (let i of this.workTasks) {
-                    if(i.id !== item.id) newArr.push(i)
+                    if(i.id !== item.id) newArr.push(i);
                 }
             } else {
                 for (let i of this.homeTasks) {
-                    if(i.id !== item.id) newArr.push(i)
+                    if(i.id !== item.id) newArr.push(i);
                 }
             }
             
             this.$emit('deleteTodo', newArr)
-        }
+        },
     }
     
 }

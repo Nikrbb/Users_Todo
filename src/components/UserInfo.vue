@@ -1,13 +1,12 @@
 <template>
-<div class="wrapper">
-   <el-descriptions
-    class="margin-top"
-    :title="usersDetails.name"
+<div>
+ <el-descriptions
+    class="margin-top id_card"
+    :title="userDetails.name +' #' + userDetails.id"
     :column="1"
     border
   >
     <template #extra>
-      <slot></slot>
     </template>
     <el-descriptions-item>
       <template #label>
@@ -18,7 +17,7 @@
           Username
         </div>
       </template>
-      {{ usersDetails.username }}
+      {{ userDetails.username }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -29,7 +28,7 @@
           Telephone
         </div>
       </template>
-      {{ usersDetails.phone }}
+      {{ userDetails.phone }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -40,7 +39,7 @@
           City
         </div>
       </template>
-      {{ usersDetails.address.city }}
+      {{ userDetails.address.city }}
     </el-descriptions-item>
      <el-descriptions-item>
       <template #label>
@@ -51,7 +50,7 @@
           Website
         </div>
       </template>
-      <el-tag size="small">{{ usersDetails.website }}</el-tag>
+      <el-tag size="small">{{ userDetails.website }}</el-tag>
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -62,9 +61,9 @@
           Email
         </div>
       </template>
-      <el-tag size="small">{{ usersDetails.email }}</el-tag>
+      <el-tag size="small">{{ userDetails.email }}</el-tag>
     </el-descriptions-item>
-    <el-descriptions-item>
+    <el-descriptions-item v-if="userDetails.address">
       <template #label>
         <div class="cell-item">
           <el-icon>
@@ -73,12 +72,13 @@
           Address
         </div>
       </template>
-      {{ 'Str: ' + usersDetails.address.street +', ' + usersDetails.address.suite + ', Zip: '+usersDetails.address.zipcode }}
+      <span >{{ 'Str: ' + userDetails.address.street +', ' + userDetails.address.suite + ', Zip: '+userDetails.address.zipcode }}</span>
       <br>
-      {{ 'Geo: lat' + usersDetails.address.geo.lat + ', lng-' + usersDetails.address.geo.lng }}
+      <span v-if="userDetails.address.geo">{{ 'Geo: lat' + userDetails.address.geo.lat + ', lng-' + userDetails.address.geo.lng }}</span>
     </el-descriptions-item>
+
     
-    <el-descriptions-item>
+    <el-descriptions-item v-if="userDetails.company">
       <template #label>
         <div class="cell-item">
           <el-icon>
@@ -87,14 +87,15 @@
           Company
         </div>
       </template>
-      {{ usersDetails.company.name }} 
+      {{ userDetails.company.name }} 
       <br>
-       {{usersDetails.company.catchPhrase }} 
+       {{userDetails.company.catchPhrase }} 
       <br>
-      {{ 'bs: ' + usersDetails.company.bs }}
+      {{ 'bs: ' + userDetails.company.bs }}
     </el-descriptions-item>
   </el-descriptions>
 </div>
+
 
 </template>
 
@@ -108,8 +109,13 @@ import {
   Eleme,
   OfficeBuilding,
 } from '@element-plus/icons-vue'
-
+import {mapGetters} from 'vuex'
 export default {
+  data() {
+    return {
+      node: false
+    }
+  },
   components: {
     User,
     Iphone,
@@ -120,12 +126,15 @@ export default {
     OfficeBuilding,
   },
   name: `UsersInfo`,
-  props: {
-    usersDetails: {
-      type: Object,
-      required: true
+  computed: {
+    ...mapGetters([
+      'userById',
+    ]),
+    userDetails() {
+      return this.userById
     }
-  }
+
+  },
 }
 </script>
 
@@ -138,6 +147,11 @@ export default {
   margin: 20px auto 0;
   max-width: 740px;
   min-width: 500px;
+}
+
+.id_card {
+  max-width: 740px;
+  margin: 50px auto 0;
 }
 
 </style>
